@@ -16,3 +16,4 @@ class Travelex(models.Model):
 class Salary(models.Model):
 
     date = models.DateField()
+    file = models.FileField()
