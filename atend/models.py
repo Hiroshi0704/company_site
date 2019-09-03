@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -16,19 +17,43 @@ class Travelex(models.Model):
         return f'{self.staff} {self.date} {self.start_place} ~ {self.end_place}: {self.value}'
 
 
+
+
+
+
+def get_salary_path(instance, filename):
+    return f'salary/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
+
 class Salary(models.Model):
 
     date    = models.DateField()
-    file    = models.FileField(upload_to='salary/%Y/%m/%d/', verbose_name='添付ファイル')
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    file    = models.FileField(upload_to=get_salary_path, verbose_name='添付ファイル')
 
     def __str__(self):
-        return f'{self.staff}: {self.file.name}'
+        return f'{self.get_staff_username()} {self.get_strftime()} {self.get_file_name()}'
+
+    def get_file_name(self):
+        return os.path.basename(self.file.name)
+
+    def get_strftime(self):
+        return self.date.strftime('%Y/%m')
+
+    def get_staff_username(self):
+        return self.staff.username
+
+    def get_download_name(self):
+        return f'{self.get_staff_username()}_{self.get_strftime()}_{self.get_file_name()}'
+
+
+
+def get_worklog_path(instance, filename):
+    return f'salary/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
 
 class Worklog(models.Model):
 
     date    = models.DateField()
-    file    = models.FileField(upload_to='worklog/%Y/%m/%d/', verbose_name='添付ファイル')
+    file    = models.FileField(upload_to=get_worklog_path, verbose_name='添付ファイル')
     comment = models.CharField(max_length=255)
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 

@@ -18,6 +18,11 @@ class HomePageView(LoginRequiredMixin,TemplateView):
 class SalaryListView(LoginRequiredMixin,ListView):
     model = Salary
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['salary_list'] = Salary.objects.filter(staff=self.request.user)
+        return context
+
 
 
 # MARK: - Traveling Expenses

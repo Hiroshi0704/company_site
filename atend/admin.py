@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Salary, Travelex, Worklog
 
-# Register your models here.
+admin.site.register(Salary)
+admin.site.register(Travelex)
+admin.site.register(Worklog)
