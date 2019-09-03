@@ -1,39 +1,39 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Salary, Worklog, Travelex
 
 
 
 # MARK: - Home
 
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin,TemplateView):
     template_name = 'atend/home.html'
 
 
 
 # MARK: - Salary
 
-class SalaryListView(ListView):
+class SalaryListView(LoginRequiredMixin,ListView):
     model = Salary
 
 
 
 # MARK: - Traveling Expenses
 
-class TravelexCreateView(CreateView):
+class TravelexCreateView(LoginRequiredMixin,CreateView):
     model = Travelex
     fields = '__all__'
 
-class TravelexListView(ListView):
+class TravelexListView(LoginRequiredMixin,ListView):
     model = Travelex
 
 
 
 # MARK: - Worklog
 
-class WorklogCreateView(CreateView):
+class WorklogCreateView(LoginRequiredMixin,CreateView):
     model = Worklog
     fields = '__all__'
 
