@@ -52,7 +52,7 @@ class Worklog(models.Model):
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.staff}: {self.file.name}'
+        return f'{self.file.name}'
 
     def get_file_name(self):
         return os.path.basename(self.file.name)
