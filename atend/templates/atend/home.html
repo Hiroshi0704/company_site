@@ -1,16 +1,80 @@
-<h1>Home Page</h1>
+{% extends 'atend/base.html' %}
 
-<hr>
-{% if user.is_authenticated %}
-    <p>You must be "{{ user }}"</p>
-    <a href="{% url 'logout' %}">Logout</a>
-{% else %}
-    <a href="{% url 'login' %}">Login</a>
-{% endif %}
-<hr>
-<a href="{% url 'salary_list' %}">Salary List</a>
-<hr>
-<a href="{% url 'travelex_create' %}">Traveling Expenses Request</a> <br>
-<a href="{% url 'travelex_list' %}">Traveling Expenses List</a>
-<hr>
-<a href="{% url 'worklog_create' %}">Worklog Request</a>
+
+{% block content %}
+
+
+  <div class="card-deck mb-3 text-center">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <!-- <h4 class="my-0 font-weight-normal">Free</h4> -->
+        <h4 class="my-0 font-weight-normal">Salary</h4>
+      </div>
+      <div class="card-body">
+        <!-- <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/ mo</small></h1> -->
+        <!-- <h1 class="card-title pricing-card-title">Salarys</h1> -->
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>10 users included</li>
+          <li>2 GB of storage</li>
+          <li>Email support</li>
+          <li>Help center access</li>
+        </ul>
+        <a href="{% url 'salary_list' %}" class="btn btn-lg btn-block btn-outline-primary">Salary List</a>
+      </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <!-- <h4 class="my-0 font-weight-normal">Pro</h4> -->
+        <h4 class="my-0 font-weight-normal">Fare</h4>
+      </div>
+      <div class="card-body">
+        <!-- <h1 class="card-title pricing-card-title">$15 <small class="text-muted">/ mo</small></h1> -->
+        <ul class="list-unstyled mt-3 mb-4">
+          <li><a href="{% url 'travelex_list' %}">Check List</a></li>
+          <li>10 GB of storage</li>
+          <li>Priority email support</li>
+          <li>Help center access</li>
+        </ul>
+        <a href="{% url 'travelex_create' %}" class="btn btn-lg btn-block btn-primary">Request</a>
+      </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Work Log</h4>
+      </div>
+      <div class="card-body">
+        <!-- <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1> -->
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>30 users included</li>
+          <li>15 GB of storage</li>
+          <li>Phone and email support</li>
+          <li>Help center access</li>
+        </ul>
+        <a href="{% url 'worklog_create' %}" class="btn btn-lg btn-block btn-primary">Request</a>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <h1>Home Page</h1>
+
+  <hr>
+  {% if user.is_authenticated %}
+      <p>You must be "{{ user }}"</p>
+      <a href="{% url 'logout' %}">Logout</a>
+  {% else %}
+      <a href="{% url 'login' %}">Login</a>
+  {% endif %}
+  <hr>
+  <a href="{% url 'salary_list' %}">Salary List</a>
+  <hr>
+  <a href="{% url 'travelex_create' %}">Traveling Expenses Request</a> <br>
+  <a href="{% url 'travelex_list' %}">Traveling Expenses List</a>
+  <hr>
+  <a href="{% url 'worklog_create' %}">Worklog Request</a>
+
+
+{% endblock content %}
