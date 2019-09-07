@@ -1,8 +1,13 @@
 import os
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+
+
+# MARK: - Travelex ----------------------------------
 
 class Travelex(models.Model):
 
@@ -17,6 +22,9 @@ class Travelex(models.Model):
         return f'Staff Name: {self.staff}, Date: {self.date}, {self.start_place} ~ {self.end_place}: {self.value}'
 
 
+
+
+# MARK: - Salary ----------------------------------
 
 def salary_path(instance, filename):
     return f'salary/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
@@ -39,7 +47,13 @@ class Salary(models.Model):
     def get_download_name(self):
         return f'{self.staff}_{self.get_file_name()}'
 
+@receiver(post_delete, sender=Salary)
+def salary_file_delete(sender, instance, **kwargs):
+    instance.file.delete(False)
 
+
+
+# MARK: - Worklog ----------------------------------
 
 def worklog_path(instance, filename):
     return f'worklog/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
@@ -59,3 +73,8 @@ class Worklog(models.Model):
 
     def get_download_name(self):
         return f'{self.staff}_{self.get_file_name()}'
+
+
+@receiver(post_delete, sender=Worklog)
+def worklog_file_delete(sender, instance, **kwargs):
+    instance.file.delete(False)
