@@ -47,10 +47,7 @@ class Salary(models.Model):
     def get_download_name(self):
         return f'{self.staff}_{self.get_file_name()}'
 
-@receiver(post_delete, sender=Salary)
-def salary_file_delete(sender, instance, **kwargs):
-    instance.file.delete(False)
-
+        
 
 
 # MARK: - Worklog ----------------------------------
@@ -73,8 +70,3 @@ class Worklog(models.Model):
 
     def get_download_name(self):
         return f'{self.staff}_{self.get_file_name()}'
-
-
-@receiver(post_delete, sender=Worklog)
-def worklog_file_delete(sender, instance, **kwargs):
-    instance.file.delete(False)

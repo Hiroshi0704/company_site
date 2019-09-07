@@ -10,7 +10,7 @@
   {% if worklog_list %}
     <ul class="list-unstyled">
     {% for worklog in worklog_list %}
-      <li>{{ worklog }} | <a href="{{ worklog.file.url }}" download="{{ worklog.get_download_name }}">Download</a></li>
+      <li>{{ worklog }} | <a href="{{ worklog.file.url }}" download="{{ worklog.get_download_name }}">Download</a> | <a href="{% url 'worklog_update' worklog.id %}">Update</a></li>
     {% endfor %}
     </ul>
   {% else %}
