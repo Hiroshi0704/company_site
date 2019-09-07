@@ -1,1 +1,11 @@
 <h1>Traveling Expenses List Page</h1>
+
+{% if travelex_list %}
+
+  {% for travelex in travelex_list %}
+    <p>{{ travelex }}</p>
+  {% endfor %}
+
+{% else %}
+  <p>There is no Traveling Expenses</p>
+{% endif %}

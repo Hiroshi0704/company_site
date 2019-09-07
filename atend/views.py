@@ -34,6 +34,11 @@ class TravelexCreateView(LoginRequiredMixin,CreateView):
 class TravelexListView(LoginRequiredMixin,ListView):
     model = Travelex
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['travelex_list'] = Travelex.objects.filter(staff=self.request.user)
+        return context
+
 
 
 # MARK: - Worklog
@@ -41,4 +46,12 @@ class TravelexListView(LoginRequiredMixin,ListView):
 class WorklogCreateView(LoginRequiredMixin,CreateView):
     model = Worklog
     fields = '__all__'
+
+class WorklogListView(LoginRequiredMixin,ListView):
+    model = Worklog
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['worklog_list'] = Worklog.objects.filter(staff=self.request.user)
+        return context
 

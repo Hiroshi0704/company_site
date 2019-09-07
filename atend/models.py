@@ -48,7 +48,7 @@ class Salary(models.Model):
 
 
 def get_worklog_path(instance, filename):
-    return f'salary/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
+    return f'worklog/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
 
 class Worklog(models.Model):
 
