@@ -1,9 +1,18 @@
-<h1>Worklog Request Page</h1>
+{% extends 'atend/base.html' %}
 
-<form method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <button type="submit">Request</button>
-</form>
+{% load crispy_forms_tags %}
+
+{% block title %} Work Log Page {% endblock title %}
+
+{% block content %}
+
+  <h1>Worklog Request Page</h1>
+  <hr>
+
+  <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary">Request</button>
+  </form>
+
+{% endblock content %}

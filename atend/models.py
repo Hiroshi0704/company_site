@@ -18,9 +18,6 @@ class Travelex(models.Model):
 
 
 
-
-
-
 def salary_path(instance, filename):
     return f'salary/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
 

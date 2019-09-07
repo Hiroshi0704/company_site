@@ -1,3 +1,5 @@
+from django.urls import reverse, reverse_lazy
+from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
@@ -29,7 +31,15 @@ class SalaryListView(LoginRequiredMixin,ListView):
 
 class TravelexCreateView(LoginRequiredMixin,CreateView):
     model = Travelex
-    fields = '__all__'
+    fields = ['start_place', 'end_place', 'date', 'value', 'reason']
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.staff = self.request.user
+        message = f'"{form.instance}" has been requested.'
+        messages.info(self.request, message)
+        return super().form_valid(form)
+
 
 class TravelexListView(LoginRequiredMixin,ListView):
     model = Travelex
@@ -45,7 +55,15 @@ class TravelexListView(LoginRequiredMixin,ListView):
 
 class WorklogCreateView(LoginRequiredMixin,CreateView):
     model = Worklog
-    fields = '__all__'
+    fields = ['date', 'file', 'comment']
+    # fields = '__all__'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.staff = self.request.user
+        message = f'"{form.instance}" has been requested.'
+        messages.info(self.request, message)
+        return super().form_valid(form)
 
 class WorklogListView(LoginRequiredMixin,ListView):
     model = Worklog

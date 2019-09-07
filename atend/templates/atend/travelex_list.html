@@ -1,11 +1,21 @@
-<h1>Traveling Expenses List Page</h1>
+{% extends 'atend/base.html' %}
 
-{% if travelex_list %}
+{% block title %} Fare List {% endblock title %}
 
-  {% for travelex in travelex_list %}
-    <p>{{ travelex }}</p>
-  {% endfor %}
+{% block content %}
 
-{% else %}
-  <p>There is no Traveling Expenses</p>
-{% endif %}
+
+  <h1>Traveling Expenses List Page</h1>
+  <hr>
+
+  {% if travelex_list %}
+    <ul class="list-unstyled">
+    {% for travelex in travelex_list %}
+      <li>{{ travelex }}</li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>There is no Traveling Expenses</p>
+  {% endif %}
+
+{% endblock content %}

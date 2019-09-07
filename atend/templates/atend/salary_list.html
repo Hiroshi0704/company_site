@@ -1,10 +1,20 @@
-<h1>Salary List Page</h1>
-<hr>
+{% extends 'atend/base.html' %}
 
-{% if salary_list %}
+{% block title %} Salary List {% endblock title %}
+
+{% block content %}
+
+  <h1>Salary List Page</h1>
+  <hr>
+
+  {% if salary_list %}
+    <ul class="list-unstyled">
     {% for salary in salary_list %}
-        <p>{{ salary }} <a href="{{ salary.file.url }}" download="{{ salary.get_download_name }}">Download</a></p>
+        <li>{{ salary }} | <a href="{{ salary.file.url }}" download="{{ salary.get_download_name }}">Download</a></li>
     {% endfor %}
-{% else %}
+    </ul>
+  {% else %}
     <p>There is no Salary</p>
-{% endif %}
+  {% endif %}
+
+{% endblock content %}
