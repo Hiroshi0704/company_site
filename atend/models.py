@@ -14,24 +14,24 @@ class Travelex(models.Model):
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.staff} {self.date} {self.start_place} ~ {self.end_place}: {self.value}'
+        return f'Staff Name: {self.staff}, Date: {self.date}, {self.start_place} ~ {self.end_place}: {self.value}'
 
 
 
 
 
 
-def get_salary_path(instance, filename):
+def salary_path(instance, filename):
     return f'salary/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
 
 class Salary(models.Model):
 
     date    = models.DateField()
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    file    = models.FileField(upload_to=get_salary_path, verbose_name='添付ファイル')
+    file    = models.FileField(upload_to=salary_path)
 
     def __str__(self):
-        return f'{self.get_staff_username()} {self.get_strftime()} {self.get_file_name()}'
+        return f'{self.staff} {self.date} {self.get_file_name()}'
 
     def get_file_name(self):
         return os.path.basename(self.file.name)
@@ -39,23 +39,26 @@ class Salary(models.Model):
     def get_strftime(self):
         return self.date.strftime('%Y/%m')
 
-    def get_staff_username(self):
-        return self.staff.username
-
     def get_download_name(self):
-        return f'{self.get_staff_username()}_{self.get_strftime()}_{self.get_file_name()}'
+        return f'{self.staff}_{self.get_file_name()}'
 
 
 
-def get_worklog_path(instance, filename):
+def worklog_path(instance, filename):
     return f'worklog/{instance.staff.username}/{instance.date.strftime("%Y/%m")}/{filename}'
 
 class Worklog(models.Model):
 
     date    = models.DateField()
-    file    = models.FileField(upload_to=get_worklog_path, verbose_name='添付ファイル')
+    file    = models.FileField(upload_to=worklog_path)
     comment = models.CharField(max_length=255)
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.staff}: {self.file.name}'
+
+    def get_file_name(self):
+        return os.path.basename(self.file.name)
+
+    def get_download_name(self):
+        return f'{self.staff}_{self.get_file_name()}'

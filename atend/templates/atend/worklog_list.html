@@ -2,7 +2,7 @@
 
 {% if worklog_list %}
     {% for worklog in worklog_list %}
-        <p>{{ worklog }} <a href="{{ worklog.file.url }}" download="{{ worklog }}">Download</a></p>
+        <p>{{ worklog }} <a href="{{ worklog.file.url }}" download="{{ worklog.get_download_name }}">Download</a></p>
     {% endfor %}
 {% else %}
     <p>There is no worklog</p>
