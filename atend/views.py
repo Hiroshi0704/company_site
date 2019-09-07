@@ -11,8 +11,8 @@ from .forms import WorklogModelForm, TravelexModelForm
 
 # MARK: - Home
 
-class HomePageView(LoginRequiredMixin,TemplateView):
-    template_name = 'atend/home.html'
+class MyPageView(LoginRequiredMixin,TemplateView):
+    template_name = 'atend/mypage.html'
 
 
 
@@ -33,7 +33,7 @@ class SalaryListView(LoginRequiredMixin,ListView):
 class TravelexCreateView(LoginRequiredMixin,CreateView):
     model = Travelex
     form_class = TravelexModelForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('mypage')
 
     def form_valid(self, form):
         form.instance.staff = self.request.user
@@ -56,11 +56,8 @@ class TravelexListView(LoginRequiredMixin,ListView):
 
 class WorklogCreateView(LoginRequiredMixin,CreateView):
     model = Worklog
-    # fields = ['date', 'file', 'comment']
-    # fields = '__all__'
     form_class = WorklogModelForm
-    success_url = reverse_lazy('home')
-
+    success_url = reverse_lazy('mypage')
 
     def form_valid(self, form):
         form.instance.staff = self.request.user
