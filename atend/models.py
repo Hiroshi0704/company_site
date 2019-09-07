@@ -10,7 +10,7 @@ class Travelex(models.Model):
     end_place   = models.CharField(max_length=255)
     date    = models.DateField()
     value   = models.IntegerField()
-    reason  = models.CharField(max_length=255)
+    reason  = models.CharField(max_length=255, blank=True, null=True)
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
@@ -48,7 +48,7 @@ class Worklog(models.Model):
 
     date    = models.DateField()
     file    = models.FileField(upload_to=worklog_path)
-    comment = models.CharField(max_length=255)
+    comment = models.CharField(max_length=255, blank=True, null=True)
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):

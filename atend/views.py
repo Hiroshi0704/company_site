@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Salary, Worklog, Travelex
+from .forms import WorklogModelForm, TravelexModelForm
 
 
 
@@ -31,7 +32,7 @@ class SalaryListView(LoginRequiredMixin,ListView):
 
 class TravelexCreateView(LoginRequiredMixin,CreateView):
     model = Travelex
-    fields = ['start_place', 'end_place', 'date', 'value', 'reason']
+    form_class = TravelexModelForm
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -55,14 +56,17 @@ class TravelexListView(LoginRequiredMixin,ListView):
 
 class WorklogCreateView(LoginRequiredMixin,CreateView):
     model = Worklog
-    fields = ['date', 'file', 'comment']
+    # fields = ['date', 'file', 'comment']
     # fields = '__all__'
+    form_class = WorklogModelForm
     success_url = reverse_lazy('home')
+
 
     def form_valid(self, form):
         form.instance.staff = self.request.user
         message = f'"{form.instance}" has been requested.'
         messages.info(self.request, message)
+        print(form)
         return super().form_valid(form)
 
 class WorklogListView(LoginRequiredMixin,ListView):
