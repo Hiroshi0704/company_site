@@ -11,7 +11,7 @@
   {% if travelex_list %}
     <ul class="list-unstyled">
     {% for travelex in travelex_list %}
-      <li>{{ travelex }} <a href="{% url 'travelex_update' travelex.id %}">Update</a></li>
+      <li>{{ travelex }} | <a href="{% url 'travelex_update' travelex.id %}">Update</a></li>
     {% endfor %}
     </ul>
   {% else %}

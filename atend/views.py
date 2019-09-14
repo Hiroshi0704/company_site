@@ -5,41 +5,32 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Salary, Worklog, Travelex
-from .forms import WorklogModelForm, TravelexModelForm
+from .forms import SalaryModelForm, WorklogModelForm, TravelexModelForm
+from .mixins import (
+    SalaryModelMixin, SalaryFormMixin, 
+    TravelexFormMixin, TravelexModelMixin, WorklogFormMixin, WorklogModelMixin
+)
 
 
-# MARK: - BaseViews
+class UpdateViewMessageMixin(UpdateView):
 
-class SuccessURLMixin:
-    success_url = reverse_lazy('mypage')
-
-
-class SalaryModelMixin(LoginRequiredMixin):
-    model = Salary
+    def form_valid(self, form):
+        message = f'"{form.instance}" has been updated.'
+        messages.success(self.request, message)
+        return super().form_valid(form)
 
 
-class TravelexModelMixin(LoginRequiredMixin):
-    model = Travelex
-
-class TravelexFormMixin(TravelexModelMixin, SuccessURLMixin):
-    form_class = TravelexModelForm
 
 
-class WorklogModelMixin(LoginRequiredMixin):
-    model = Worklog
-
-class WorklogFormMixin(WorklogModelMixin, SuccessURLMixin):
-    form_class = WorklogModelForm
-
-
-# MARK: - My Page
+# MARK: - My Page ------------------------------------------
 
 class MyPageView(LoginRequiredMixin,TemplateView):
     template_name = 'atend/mypage.html'
 
 
 
-# MARK: - Salary
+
+# MARK: - Salary ------------------------------------------
 
 class SalaryListView(SalaryModelMixin, ListView):
 
@@ -48,11 +39,26 @@ class SalaryListView(SalaryModelMixin, ListView):
         context['salary_list'] = Salary.objects.filter(staff=self.request.user)
         return context
 
+class SalaryCreateView(SalaryFormMixin, CreateView):
+    
+    def form_valid(self, form):
+        form.instance.staff = self.request.user
+        message = f'"{form.instance}" has been requested.'
+        messages.info(self.request, message)
+        return super().form_valid(form)
+
+class SalaryUpdateView(SalaryFormMixin, UpdateViewMessageMixin):
+    pass
 
 
-# MARK: - Traveling Expenses
+
+
+
+# MARK: - Traveling Expenses ------------------------------------------
 
 class TravelexCreateView(TravelexFormMixin,CreateView):
+
+
 
     def form_valid(self, form):
         form.instance.staff = self.request.user
@@ -69,15 +75,14 @@ class TravelexListView(TravelexModelMixin,ListView):
         return context
 
 
-class TravelexUpdateView(TravelexFormMixin,UpdateView):
-    
-    def form_valid(self, form):
-        message = f'"{form.instance}" has been updated.'
-        messages.success(self.request, message)
-        return super().form_valid(form)
 
 
-# MARK: - Worklog
+class TravelexUpdateView(TravelexFormMixin,UpdateViewMessageMixin):
+    pass
+
+
+
+# MARK: - Worklog ------------------------------------------
 
 class WorklogCreateView(WorklogFormMixin,CreateView):
     
@@ -88,12 +93,8 @@ class WorklogCreateView(WorklogFormMixin,CreateView):
         print(form)
         return super().form_valid(form)
 
-class WorklogUpdateView(WorklogFormMixin,UpdateView):
-    
-    def form_valid(self, form):
-        message = f'"{form.instance}" has been updated.'
-        messages.success(self.request, message)
-        return super().form_valid(form)
+class WorklogUpdateView(WorklogFormMixin,UpdateViewMessageMixin):
+    pass
 
 class WorklogListView(WorklogModelMixin,ListView):
 

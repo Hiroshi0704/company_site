@@ -19,7 +19,7 @@ class Travelex(models.Model):
     staff   = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Staff Name: {self.staff}, Date: {self.date}, {self.start_place} ~ {self.end_place}: {self.value}'
+        return f'{self.staff}: {self.date} {self.start_place} ~ {self.end_place} {self.value}'
 
 
 
@@ -36,7 +36,7 @@ class Salary(models.Model):
     file    = models.FileField(upload_to=salary_path)
 
     def __str__(self):
-        return f'{self.staff} {self.date} {self.get_file_name()}'
+        return f'{self.staff}: {self.date} {self.get_file_name()}'
 
     def get_file_name(self):
         return os.path.basename(self.file.name)
@@ -47,7 +47,7 @@ class Salary(models.Model):
     def get_download_name(self):
         return f'{self.staff}_{self.get_file_name()}'
 
-        
+
 
 
 # MARK: - Worklog ----------------------------------
